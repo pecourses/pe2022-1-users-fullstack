@@ -1,0 +1,36 @@
+# check valid user - 200
+POST http://localhost:5000/api/users
+Content-Type: application/json
+
+{
+  "firstName":"Test",
+  "lastName":"Testovych",
+  "email":"test2000@test.com",
+  "passwordHash":"123456",
+  "birthday":"2000-02-01",
+  "gender":"male"
+}
+
+# check invalid user - 422
+POST http://localhost:5000/api/users
+Content-Type: application/json
+
+{
+  "email":"test2@test.com",
+  "passwordHash":"123456",
+  "birthday":"2000-02-01",
+  "gender":"male"
+}
+
+# check invalid user with unique err - 422
+POST http://localhost:5000/api/users
+Content-Type: application/json
+
+{
+  "firstName":"Test",
+  "lastName":"Testovych",
+  "email":"test2@test.com",
+  "passwordHash":"123456",
+  "birthday":"2000-02-01",
+  "gender":"male"
+}

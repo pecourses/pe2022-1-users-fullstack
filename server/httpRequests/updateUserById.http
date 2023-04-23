@@ -1,0 +1,31 @@
+# check valid data - 200
+PATCH http://localhost:5000/api/users/2 HTTP/1.1
+Content-Type: application/json
+
+{
+  "firstName":"Anothername"
+}
+
+# check updating unexisting user - 404
+PATCH http://localhost:5000/api/users/1000 HTTP/1.1
+Content-Type: application/json
+
+{
+  "firstName":"Anothername"
+}
+
+# check invalid data - 422
+PATCH http://localhost:5000/api/users/2 HTTP/1.1
+Content-Type: application/json
+
+{
+  "firstName":"anotherName"
+}
+
+# check invalid data (ununique email) - 422
+PATCH http://localhost:5000/api/users/2 HTTP/1.1
+Content-Type: application/json
+
+{
+  "email":"test2@test.com"
+}
