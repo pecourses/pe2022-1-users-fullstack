@@ -10,3 +10,5 @@ export const getUsers = () => httpClient.get('/api/users?limit=100&offset=0');
 //    data (text) => (multer) => req.body
 //    data (file) => (multer) => req.file
 export const createUser = data => httpClient.post('/api/users', data);
+
+export const deleteUser = userId => httpClient.delete(`/api/users/${userId}`);
