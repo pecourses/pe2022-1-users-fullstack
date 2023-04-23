@@ -4,7 +4,7 @@ import { USER_VALIDATION_SCHEMA } from '../../../utils/validate/validationSchema
 import Input from '../Input';
 import CONSTANTS from './../../../constants';
 import styles from './UserForm.module.sass';
-import { createUsersThunk } from '../../../store/slices/usersSlice';
+import { createUserThunk } from '../../../store/slices/usersSlice';
 
 const { GENDERS } = CONSTANTS;
 
@@ -16,14 +16,31 @@ function UserForm ({ create }) {
     passwordHash: '',
     birthday: '',
     gender: GENDERS[0],
-    // userPhoto: '',
+    userPhoto: '',
   };
 
   const handleSubmit = (values, formikBag) => {
-    if (!values.birthday) {
-      delete values.birthday;
+    // values => Application/json
+    // if (!values.birthday) {
+    //   delete values.birthday;
+    // }
+    // create(values);
+
+    // files => multipart/form-data
+    const formData = new FormData();
+    // multer: formData(text) => req.body
+    formData.append('firstName', values.firstName);
+    formData.append('lastName', values.lastName);
+    formData.append('email', values.email);
+    formData.append('passwordHash', values.passwordHash);
+    if (values.birthday) {
+      formData.append('birthday', values.birthday);
     }
-    create(values);
+    formData.append('gender', values.gender);
+    // multer: formData(file) => req.file
+    formData.append('userPhoto', values.userPhoto);
+    create(formData);
+
     formikBag.resetForm();
   };
 
@@ -85,7 +102,13 @@ function UserForm ({ create }) {
           ))}
           <label>
             <span>Photo:</span>
-            <input type='file' name='userPhoto' />
+            <input
+              type='file'
+              name='userPhoto'
+              onChange={e =>
+                formikProps.setFieldValue('userPhoto', e.target.files[0])
+              }
+            />
           </label>
           <button type='submit'>Save</button>
         </Form>
@@ -95,7 +118,7 @@ function UserForm ({ create }) {
 }
 
 const mapDispatchToProps = dispatch => ({
-  create: values => dispatch(createUsersThunk(values)),
+  create: values => dispatch(createUserThunk(values)),
 });
 
 export default connect(null, mapDispatchToProps)(UserForm);

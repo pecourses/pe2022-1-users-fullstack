@@ -17,6 +17,7 @@ export const UsersList = ({ users, isFetching, error, get }) => {
       <ul>
         {users.map(u => (
           <li key={u.id}>
+            <button onClick={() => {}}>X</button>
             <img
               className={styles.userImage}
               src={u.image ? `http://localhost:5000/${u.image}` : defImage}
