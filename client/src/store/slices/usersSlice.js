@@ -37,7 +37,8 @@ const usersSlice = createSlice({
   name: USERS_SLICE_NAME,
   initialState,
   extraReducers: builder => {
-    builder.addCase(getUsersThunk.pending, (state, action) => {
+    // GET
+    builder.addCase(getUsersThunk.pending, state => {
       state.isFetching = true;
       state.error = null;
     });
@@ -46,6 +47,19 @@ const usersSlice = createSlice({
       state.users = [...action.payload];
     });
     builder.addCase(getUsersThunk.rejected, (state, action) => {
+      state.isFetching = false;
+      state.error = action.payload;
+    });
+    // CREATE
+    builder.addCase(createUsersThunk.pending, state => {
+      state.isFetching = true;
+      state.error = null;
+    });
+    builder.addCase(createUsersThunk.fulfilled, (state, action) => {
+      state.isFetching = false;
+      state.users.push(action.payload);
+    });
+    builder.addCase(createUsersThunk.rejected, (state, action) => {
       state.isFetching = false;
       state.error = action.payload;
     });
