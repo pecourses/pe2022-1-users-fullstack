@@ -8,10 +8,8 @@ export const getUsersThunk = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await API.getUsers();
-      console.log('response :>> ', response);
       return response.data.data;
     } catch (err) {
-      console.log('err :>> ', err);
       return thunkAPI.rejectWithValue({ message: err.message });
     }
   }
@@ -26,6 +24,20 @@ const initialState = {
 const usersSlice = createSlice({
   name: USERS_SLICE_NAME,
   initialState,
+  extraReducers: builder => {
+    builder.addCase(getUsersThunk.pending, (state, action) => {
+      state.isFetching = true;
+      state.error = null;
+    });
+    builder.addCase(getUsersThunk.fulfilled, (state, action) => {
+      state.isFetching = false;
+      state.users = [...action.payload];
+    });
+    builder.addCase(getUsersThunk.rejected, (state, action) => {
+      state.isFetching = false;
+      state.error = action.payload;
+    });
+  },
 });
 
 const { reducer } = usersSlice;
