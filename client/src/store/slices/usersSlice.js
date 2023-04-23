@@ -22,6 +22,7 @@ export const createUsersThunk = createAsyncThunk(
       const response = await API.createUser(payload);
       return response.data.data;
     } catch (err) {
+      console.log('err :>> ', err);
       return thunkAPI.rejectWithValue({ message: err.message });
     }
   }

@@ -20,6 +20,9 @@ function UserForm ({ create }) {
   };
 
   const handleSubmit = (values, formikBag) => {
+    if (!values.birthday) {
+      delete values.birthday;
+    }
     create(values);
     formikBag.resetForm();
   };
