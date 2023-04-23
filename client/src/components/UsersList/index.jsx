@@ -9,6 +9,7 @@ export const UsersList = ({ users, isFetching, error, get }) => {
   useEffect(() => {
     get();
   }, []);
+
   return (
     <>
       <BeatLoader loading={isFetching} />

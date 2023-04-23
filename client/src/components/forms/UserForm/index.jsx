@@ -4,10 +4,11 @@ import { USER_VALIDATION_SCHEMA } from '../../../utils/validate/validationSchema
 import Input from '../Input';
 import CONSTANTS from './../../../constants';
 import styles from './UserForm.module.sass';
+import { createUsersThunk } from '../../../store/slices/usersSlice';
 
 const { GENDERS } = CONSTANTS;
 
-function UserForm () {
+function UserForm ({ create }) {
   const initialValues = {
     firstName: '',
     lastName: '',
@@ -19,7 +20,7 @@ function UserForm () {
   };
 
   const handleSubmit = (values, formikBag) => {
-    console.log('values :>> ', values);
+    create(values);
     formikBag.resetForm();
   };
 
@@ -90,6 +91,8 @@ function UserForm () {
   );
 }
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  create: values => dispatch(createUsersThunk(values)),
+});
 
 export default connect(null, mapDispatchToProps)(UserForm);

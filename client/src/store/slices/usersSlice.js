@@ -15,6 +15,18 @@ export const getUsersThunk = createAsyncThunk(
   }
 );
 
+export const createUsersThunk = createAsyncThunk(
+  `${USERS_SLICE_NAME}/create`,
+  async (payload, thunkAPI) => {
+    try {
+      const response = await API.createUser(payload);
+      return response.data.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue({ message: err.message });
+    }
+  }
+);
+
 const initialState = {
   users: [],
   isFetching: false,
